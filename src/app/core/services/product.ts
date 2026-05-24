@@ -31,7 +31,6 @@ export class ProductService {
   }
 
   deleteList(ids: number[]) {
-    const deleteRequests = ids.map(id => this.delete(id));
-    return this.http.delete(`${this.apiUrl}/list`, { body: { ids } }  );
+    return this.http.post(`${this.apiUrl}/deleteList`, { Ids: ids });
   }
 }

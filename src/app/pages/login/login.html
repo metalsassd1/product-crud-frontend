@@ -23,9 +23,10 @@
         <div class="error-box">{{ errorMessage }}</div>
       }
 
-      <button type="submit" [disabled]="loading">
+      <button type="submit" [disabled]="loading ">
         {{ loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ' }}
       </button>
+
 
       <div class="footer-link">
         <a routerLink="/register">สมัครที่นี่</a>

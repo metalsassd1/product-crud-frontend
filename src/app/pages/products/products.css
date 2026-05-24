@@ -257,3 +257,27 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.detail {
+  color: #6ca018;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.detail:hover {
+  text-decoration: underline;
+}
+
+.detail:active {
+  color: #44660e;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.detail-label {
+  color: #4d4d4d;
+  font-weight: 600;
+}

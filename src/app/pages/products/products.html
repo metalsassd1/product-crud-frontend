@@ -28,7 +28,7 @@
           class="search-input"
         />
         <div class="toolbar-actions">
-          @if (selectedProductIds().length > 0 && user?.role === 'Admin') {
+          @if ( user?.role === 'Admin') {
             <button class="btn-danger" (click)="onDelete(selectedProductIds())">
               ลบ({{ selectedProductIds().length }})
             </button>
@@ -165,7 +165,7 @@
   @if (showDetailModal()) {
     <div class="modal-overlay" (click)="closeDetail()">
       <div class="modal" (click)="$event.stopPropagation()">
-        <h3>📦 รายละเอียดสินค้า</h3>
+        <h3>รายละเอียดสินค้า</h3>
         <div class="detail-grid">
           <span class="detail-label">ชื่อ</span><span>{{ selectedProduct()?.name }}</span>
           <span class="detail-label">คำอธิบาย</span

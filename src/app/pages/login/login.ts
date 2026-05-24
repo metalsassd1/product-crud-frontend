@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth';
@@ -15,6 +15,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   form = this.fb.group({
     username: ['', [Validators.required]],
@@ -31,10 +32,14 @@ export class LoginComponent {
 
     const { username, password } = this.form.value;
     this.authService.login(username!, password!).subscribe({
-      next: () => this.router.navigate(['/products']),
-      error: () => {
-        this.errorMessage = 'Username หรือ Password ไม่ถูกต้อง';
+      next: () => {
         this.loading = false;
+        this.router.navigate(['/products']);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.cdr.detectChanges(); // ← force UI update
+        this.errorMessage = err.error?.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ';
       }
     });
   }

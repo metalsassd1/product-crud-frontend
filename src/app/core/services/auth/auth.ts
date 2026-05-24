@@ -14,6 +14,7 @@ export class AuthService {
       tap(res => {
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify({ username: res.username, role: res.role }));
+        localStorage.setItem('expiresAt', res.expiresAt);
       })
     );
   }
@@ -25,6 +26,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('expiresAt');
     this.router.navigate(['/login']);
   }
 

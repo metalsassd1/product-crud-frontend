@@ -15,8 +15,10 @@
       }
     </div>
 
-    <div class="sidebar-administrator">
-      <span class="admin-label">ผู้ดูแลระบบ</span>
-    </div>
+    @if (isAdmin) {
+      <div class="sidebar-administrator">
+        <span class="admin-label">ผู้ดูแลระบบ (Admin)</span>
+      </div>
+    }
   </div>
 </aside>

@@ -1,0 +1,47 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 260px; /* ดันขอบซ้ายหลบให้ Sidebar กว้าง 260px */
+  width: calc(100% - 260px); /* ความกว้างหักลบพื้นที่ Sidebar ออก */
+  height: 64px; /* ความสูงล็อกให้เท่ากับหัวรากระบบของด้านซ้าย */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  /* 🟢 เปลี่ยนจากสีกรมท่าเป็นสีเขียวมะกอกเข้ม ผสมเทาอ่อนโยน (Olive Charcoal) */
+  background: #243425; 
+  /* 🟢 เพิ่มเส้นคั่นขอบล่างสีเขียวจาง ๆ ให้ดูมีมิติคมชัด */
+  border-bottom: 1px solid #2d422e; 
+  
+  color: white;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  z-index: 90; /* ให้เลเยอร์ต่ำกว่า Sidebar เล็กน้อยเพื่อให้ Sidebar ทับขอบงดงาม */
+}
+
+/* 🗺️ สไตล์ชุดตัวอักษร Breadcrumb ในโทนเขียวมิ้นต์-ขาว */
+.breadcrumb-zone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: sans-serif;
+}
+
+.breadcrumb-separator {
+  color: #6b8e6d; /* เปลี่ยนลูกศรเป็นสีเขียวใบไม้หม่น */
+  font-size: 0.8rem;
+}
+
+.breadcrumb-item {
+  color: #a3b8a4; /* ข้อความรองเป็นสีเขียวพาสเทลจาง ๆ */
+  font-weight: 500;
+}
+
+.breadcrumb-item.active {
+  color: #ffffff; /* หน้าปัจจุบันให้ตัวอักษรสีขาวสว่างชัดเจน */
+  font-weight: 600;
+}
+
+.nav-actions { display: flex; gap: 1rem; align-items: center; }
+.btn-logout { background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 500; }
+.user-info { font-size: 13px; color: #bbf7d0; opacity: 0.9; } /* ปรับสียูสเซอร์เป็นเขียวมิ้นต์นวลตา */

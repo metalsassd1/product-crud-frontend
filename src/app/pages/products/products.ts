@@ -2,18 +2,19 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProductService } from '../../core/services/product';
-import { CategoryService } from '../../core/services/category';
-import { AuthService } from '../../core/services/auth';
-import { NavbarComponent } from '../../core/components/navbar/navbar';
+import { ProductService } from '../../core/services/product/product';
+import { CategoryService } from '../../core/services/category/category';
+import { AuthService } from '../../core/services/auth/auth';
+import { SidebarComponent  } from '../../core/components/navbar/sidebar/sidebar';
 import { LoadingComponent } from '../../core/components/loading/loading';
 import { EmptyStateComponent } from '../../core/components/empty-state/empty-state';
-import { DialogService } from '../../core/services/dialog';
+import { DialogService } from '../../core/services/dialog/dialog';
+import { NavbarComponent } from '../../core/components/navbar/navbar/navbar';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, LoadingComponent, EmptyStateComponent],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent , LoadingComponent, EmptyStateComponent, NavbarComponent],
   templateUrl: './products.html',
   styleUrl: './products.css'
 })
@@ -24,6 +25,7 @@ export class ProductsComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  navLinks = [{ navLabel: "Categories", navPath: "/categories" }];
 
   products = signal<any[]>([]);
   categories = signal<any[]>([]);

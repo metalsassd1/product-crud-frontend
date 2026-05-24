@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DialogService } from '../../../services/dialog'; // 🎯 เรียกใช้บริการคลังแสงกลาง
+import { DialogService } from '../../../services/dialog/dialog'; // 🎯 เรียกใช้บริการคลังแสงกลาง
 
 @Component({
   selector: 'app-confirm-dialog',

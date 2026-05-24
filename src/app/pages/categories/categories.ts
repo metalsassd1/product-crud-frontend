@@ -2,14 +2,14 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CategoryService } from '../../core/services/category';
-import { AuthService } from '../../core/services/auth';
-import { NavbarComponent } from '../../core/components/navbar/navbar';
+import { CategoryService } from '../../core/services/category/category';
+import { AuthService } from '../../core/services/auth/auth';
+import { SidebarComponent  } from '../../core/components/navbar/sidebar/sidebar';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-imports: [CommonModule, ReactiveFormsModule, NavbarComponent],
+imports: [CommonModule, ReactiveFormsModule, SidebarComponent],
   templateUrl: './categories.html',
   styleUrl: './categories.css'
 })

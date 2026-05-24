@@ -1,0 +1,20 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <span class="brand">{{ title }}</span>
+  </div>
+
+  <div class="sidebar-content">
+    <div class="nav-links">
+      <!-- 🎯 วนลูปสร้างรายการเมนูเปลี่ยนหน้า -->
+      @for (link of links; track link.navLabel) {
+        <button class="nav-item" (click)="goToPage(link.navPath)">
+          {{ link.navLabel }}
+        </button>
+      }
+    </div>
+
+    <div class="sidebar-administrator">
+      <span class="admin-label">ผู้ดูแลระบบ</span>
+    </div>
+  </div>
+</aside>

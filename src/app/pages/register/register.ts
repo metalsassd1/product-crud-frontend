@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../core/services/auth'; // 🎯 ลิงก์ตรงเข้าไฟล์ auth.ts ของคุณ
+import { AuthService } from '../../core/services/auth/auth'; // 🎯 ลิงก์ตรงเข้าไฟล์ auth.ts ของคุณ
 
 @Component({
   selector: 'app-register',

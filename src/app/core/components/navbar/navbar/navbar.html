@@ -1,0 +1,17 @@
+<nav class="navbar">
+  <div class="breadcrumb-zone">
+    @for (crumb of breadcrumbs; track crumb.label; let last = $last) {
+      @if (!last) {
+        <span class="breadcrumb-item">{{ crumb.label }}</span>
+        <span class="breadcrumb-separator">➔</span>
+      } @else {
+        <span class="breadcrumb-item active">{{ crumb.label }}</span>
+      }
+    }
+  </div>
+
+  <div class="nav-actions">
+    <span class="user-info">👤 {{ user?.username }} ({{ user?.role }})</span>
+    <button class="btn-logout" (click)="logout()">ออกจากระบบ</button>
+  </div>
+</nav>

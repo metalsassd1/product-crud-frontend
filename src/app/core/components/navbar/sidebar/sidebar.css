@@ -1,0 +1,106 @@
+/* 🧱 โครงสร้างหลักของ Sidebar ยึดด้านซ้ายเต็มความสูง (ปรับเป็นเขียวเข้มธรรมชาติ) */
+.sidebar {
+  position: fixed;
+  top: 0;       /* 🎯 ดันขึ้นไปจุดสูงสุดของจอภาพ */
+  left: 0;
+  width: 260px; /* 🎯 ล็อกความกว้างไว้คงที่ */
+  height: 100vh; /* 🎯 สั่งให้สูงเต็มหน้าจอ 100% ตั้งแต่บนสุดลงล่างสุด */
+  background-color: #1e3f20; /* เขียวป่าลึก ดูพรีเมียม */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.15);
+  font-family: sans-serif;
+  z-index: 100;
+}
+
+/* 🟢 ส่วนหัวข้อระบบ (ตอนนี้จะกลายเป็นจุดตัดแบรนด์สีเขียวเข้มมุมบนซ้ายอย่างสวยงาม) */
+.sidebar-header {
+  height: 64px; 
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  color: #363030;
+  background-color: #e7e7e7; 
+  border-bottom: 1px solid #2d5a30;
+}
+.sidebar-administrator {
+  padding: 12px 16px;
+  background-color: #2d5a30; /* สีเขียวใบไม้เข้มขึ้นอีกนิดเพื่อเน้นส่วนผู้ดูแล */
+  color: #bbf7d0; /* ตัวอักษรสีเขียวมิ้นต์อ่อน ๆ นวลตา */
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.brand {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ส่วนเนื้อหาเมนูข้างใน */
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 24px 16px;
+}
+
+.nav-links,
+.sidebar-user-zone {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+/* ปุ่มเมนู */
+.nav-item {
+  background: transparent;
+  color: #f5f5f5; /* 🟢 สีเขียวมะนาวอ่อน/พาสเทล เด่นชัดและอ่านง่าย */
+  border: none;
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+}
+
+/* เมื่อเอาเมาส์ไปชี้เมนู (Hover) */
+.nav-item:hover {
+  background-color: #2d5a30; /* 🟢 ไฮไลต์ด้วยสีเขียวใบไม้ */
+  color: #ffffff; /* ตัวอักษรเปลี่ยนเป็นสีขาวบริสุทธิ์ */
+}
+
+/* ส่วนยูสเซอร์ด้านล่างสุด */
+.sidebar-user-zone {
+  border-top: 1px solid #2d5a30; /* เส้นคั่นโทนเขียวกลมกลืน */
+  padding-top: 16px;
+}
+
+.user-info {
+  font-size: 0.85rem;
+  color: #bbf7d0; /* 🟢 ตัวอักษรสีเขียวมิ้นต์อ่อน ๆ นวลตา */
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* ปุ่มออกจากระบบ */
+.btn-logout {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #dc2626;
+}

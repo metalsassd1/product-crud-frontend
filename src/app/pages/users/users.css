@@ -1,0 +1,253 @@
+/* 🧱 คุมโครงสร้างหลักของหน้าจอทั้งหมด */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f0f2f5;
+}
+
+/* 🎯 ล็อกตำแหน่งของแถบเมนูด้านบนสุด (Top Navbar) */
+.navbar-wrapper {
+  height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 110;
+}
+
+/* 🎯 ผลักเนื้อหาหลบแนวของ Sidebar (ซ้าย 260px) และ Navbar (บน 64px) */
+.layout {
+  display: flex;
+  margin-left: 260px;
+  margin-top: 64px;   
+  min-height: calc(100vh - 64px);
+  width: calc(100% - 260px);
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h2 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.6rem;
+}
+
+.admin-badge {
+  background: #7c3aed;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 📊 ส่วนของการจัดตารางข้อมูล */
+.table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  background: #1e3f20; /* เขียวป่าลึกคุมโทนเดียวกับ Sidebar */
+  color: white;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 14px;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: #f8fafc;
+}
+
+/* 🏷️ การตกแต่ง Badge สิทธิ์ผู้ใช้งาน */
+.badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 80px;
+}
+.badge-admin {
+  background: #fde8e8;
+  color: #c81e1e;
+}
+.badge-user {
+  background: #e8eaf6;
+  color: #283593;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem !important;
+}
+
+/* 🕹️ ส่วนจัดการปุ่ม Action ต่าง ๆ */
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #6ca018; /* ปรับเป็นโทนเขียวประจำระบบของสหาย */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover {
+  background: #557e12;
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-warning {
+  background: #ed8936;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: opacity 0.2s;
+}
+.btn-warning:hover {
+  opacity: 0.9;
+}
+
+.btn-danger {
+  background: #e53e3e;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: opacity 0.2s;
+}
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+/* 🖤 ฉากหลังหน้าต่างแก้ไขข้อมูล (กางคลุมทะลุเลเยอร์ 100%) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 🚀 สูงกว่าเลเยอร์ของ Navbar และ Sidebar เสมอ */
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+  font-size: 1.3rem;
+}
+
+/* 📝 ฟอร์มกรอกข้อมูลสมาชิก */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #475569;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #334155;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6ca018; /* ขอบเปลี่ยนสีเมื่อเอาเมาส์ไปคลิกโฟกัส */
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 12px;
+  font-weight: 500;
+}

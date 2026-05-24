@@ -1,0 +1,99 @@
+<div class="page">
+  <header class="navbar-wrapper">
+    <app-navbar [breadcrumbs]="[{ label: 'CRM' }, { label: 'Users' }]" />
+  </header>
+
+  <div class="layout">
+    <app-sidebar
+      title="Product Management"
+      [links]="[
+        { navLabel: 'จัดการสินค้า', navPath: 'products' },
+        { navLabel: 'จัดการหมวดหมู่', navPath: 'categories' },
+        { navLabel: 'จัดการผู้ใช้', navPath: 'users' }
+      ]"
+    />
+
+    <div class="content">
+      <div class="page-header">
+        <h2>จัดการผู้ใช้งาน</h2>
+        <span class="admin-badge">Admin Only</span>
+      </div>
+
+      @if (loading()) {
+        <app-loading [show]="loading()" message="กำลังโหลดข้อมูลผู้ใช้..." />
+      } @else {
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 80px">#</th>
+                <th>Username</th>
+                <th style="width: 200px">Role</th>
+                <th style="width: 160px; text-align:center">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (u of users(); track u.id) {
+                <tr>
+                  <td>{{ u.id }}</td>
+                  <td><strong>{{ u.username }}</strong></td>
+                  <td>
+                    <span [class]="'badge ' + getRoleBadgeClass(u.role)">
+                      {{ u.role }}
+                    </span>
+                  </td>
+                  <td class="actions">
+                    <button class="btn-warning" (click)="openEdit(u)">แก้ไข</button>
+                    <button class="btn-danger" (click)="onDelete(u.id, u.username)">ลบ</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="empty">
+                    <app-empty-state message="ไม่พบข้อมูลผู้ใช้งานในระบบ" />
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>แก้ไขข้อมูลผู้ใช้</h3>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Username *</label>
+            <input formControlName="username" type="text" />
+            @if (form.get('username')?.invalid && form.get('username')?.touched) {
+              <span class="error">Username ต้องมีความยาวระว่าง 3 ถึง 20 ตัวอักษร</span>
+            }
+          </div>
+          
+          <div class="form-group">
+            <label>Password ใหม่</label>
+            <input formControlName="newPassword" type="password" placeholder="กรอกเฉพาะเมื่อต้องการเปลี่ยนรหัสผ่าน" />
+            <small style="color: #718096; font-size: 11px; margin-top: 2px;">* ปล่อยว่างไว้หากต้องการใช้รหัสผ่านเดิม</small>
+          </div>
+          
+          <div class="form-group">
+            <label>Role *</label>
+            <select formControlName="role">
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+          
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" (click)="closeModal()">ยกเลิก</button>
+            <button type="submit" class="btn-primary" [disabled]="form.invalid">บันทึกข้อมูล</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

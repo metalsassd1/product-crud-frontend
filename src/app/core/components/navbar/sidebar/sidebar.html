@@ -7,9 +7,11 @@
     <div class="nav-links">
       <!-- 🎯 วนลูปสร้างรายการเมนูเปลี่ยนหน้า -->
       @for (link of links; track link.navLabel) {
-        <button class="nav-item" (click)="goToPage(link.navPath)">
-          {{ link.navLabel }}
-        </button>
+        @if (!link.adminOnly || isAdmin) {
+          <button class="nav-item" (click)="goToPage(link.navPath)">
+            {{ link.navLabel }}
+          </button>
+        }
       }
     </div>
 

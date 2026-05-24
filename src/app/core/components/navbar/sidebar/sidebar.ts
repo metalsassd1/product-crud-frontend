@@ -14,19 +14,18 @@ export class SidebarComponent {
 
   // ข้อมูลเดิมของคุณ
   @Input() title = '';
-  @Input() links: { navLabel: string; navPath: string }[] = [];
+  @Input() links: { navLabel: string; navPath: string; adminOnly?: boolean }[] = [];
 
   private authService = inject(AuthService);
+  get isAdmin(): boolean { return this.authService.getUser()?.role === 'Admin'; }
   get user() { return this.authService.getUser(); }
 
   isMenuOpen = signal<boolean>(false);
 
-  // 🔄 ฟังก์ชันสลับสถานะเปิด/ปิด
   toggleMenu() {
     this.isMenuOpen.set(!this.isMenuOpen());
   }
 
-  // 🚀 ฟังก์ชันเปลี่ยนหน้า และสั่งปิดเมนูออโต้หลังจากกด
   goToPage(page: string) {
     this.router.navigate([`/${page}`]);
     this.isMenuOpen.set(false); // กดปุ๊บหดเมนูกลับทันที

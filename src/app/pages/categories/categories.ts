@@ -4,17 +4,22 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../core/services/category/category';
 import { AuthService } from '../../core/services/auth/auth';
-import { SidebarComponent  } from '../../core/components/navbar/sidebar/sidebar';
+import { SidebarComponent } from '../../core/components/navbar/sidebar/sidebar';
+import { LoadingComponent } from '../../core/components/loading/loading';
+import { EmptyStateComponent } from '../../core/components/empty-state/empty-state';
+import { NavbarComponent } from '../../core/components/navbar/navbar/navbar';
+import { DialogService } from '../../core/services/dialog/dialog';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-imports: [CommonModule, ReactiveFormsModule, SidebarComponent],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent, LoadingComponent, EmptyStateComponent, NavbarComponent],
   templateUrl: './categories.html',
   styleUrl: './categories.css'
 })
 export class CategoriesComponent implements OnInit {
   private categoryService = inject(CategoryService);
+  private dialogService = inject(DialogService);
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);

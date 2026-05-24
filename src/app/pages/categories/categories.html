@@ -1,77 +1,109 @@
 <div class="page">
   <!-- Navbar -->
-  <nav>
-    <div>
-      <app-sidebar title="Product Management" navLabel="Categories" navPath="/products" />
-    </div>
-  </nav>
+  <header class="navbar-wrapper">
+    <app-navbar
+      [breadcrumbs]="[
+        { label: 'User', path: 'crm' },
+        { label: 'Categories', path: 'categories' },
+      ]"
+    />
+  </header>
 
-  <div class="content">
-    <!-- Toolbar -->
-    <div class="toolbar">
-      <input
-        type="text"
-        placeholder=" ค้นหาหมวดหมู่..."
-        (input)="onSearch($event)"
-        class="search-input"
-      />
-      <button class="btn-primary" (click)="openCreate()">+ เพิ่มหมวดหมู่</button>
-    </div>
+  <div class="layout">
+    <app-sidebar
+      title="Product Management"
+      [links]="[
+        { navLabel: 'จัดการสินค้า', navPath: 'products' },
+        { navLabel: 'จัดการหมวดหมู่', navPath: 'categories' },
+      ]"
+    />
+    <div class="content">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="ค้นหาหมวดหมู่..."
+            (input)="onSearch($event)"
+            class="search-input"
+          />
+        </div>
+        <div class="toolbar-actions">
+          <button class="btn-primary" (click)="openCreate()">+เพิ่ม</button>
+        </div>
+      </div>
 
-    <!-- Table -->
-    @if (loading()) {
-      <div class="loading">กำลังโหลด...</div>
-    } @else {
-      <table class="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>ชื่อหมวดหมู่</th>
-            <th>คำอธิบาย</th>
-            <th>จัดการ</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (cat of categories(); track cat.id) {
-            <tr>
-              <td>{{ cat.id }}</td>
-              <td>{{ cat.name }}</td>
-              <td>{{ cat.description }}</td>
-              <td class="actions">
-                <button class="btn-warning" (click)="openEdit(cat)">แก้ไข</button>
-                <button class="btn-danger" (click)="onDelete(cat.id)">ลบ</button>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="4" class="empty">ไม่พบหมวดหมู่</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    }
+      <!-- Table -->
+      @if (loading()) {
+        <app-loading [show]="loading()" message="กำลังโหลดข้อมูลหมวดหมู่..." />
+      } @else {
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 80px">#</th>
+                <th>ชื่อหมวดหมู่</th>
+                <th>คำอธิบาย</th>
+                <th style="width: 160px; text-align: center">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (cat of categories(); track cat.id) {
+                <tr>
+                  <td>{{ cat.id }}</td>
+                  <td style="font-weight: 600; color: #1e293b">{{ cat.name }}</td>
+                  <td>{{ cat.description || '-' }}</td>
+                  <td class="actions" style="text-align: center">
+                    <button class="btn-warning" (click)="openEdit(cat)" style="margin-right: 8px">
+                      แก้ไข
+                    </button>
+                    <button class="btn-danger" (click)="onDelete(cat.id)">ลบ</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="empty">
+                    <app-empty-state message="ไม่พบข้อมูลหมวดหมู่สินค้าในระบบ" />
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
   </div>
 
   <!-- Create/Edit Modal -->
   @if (showModal()) {
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal" (click)="$event.stopPropagation()">
-        <h3>{{ editingId() ? 'แก้ไขหมวดหมู่' : 'เพิ่มหมวดหมู่ใหม่' }}</h3>
+        <h3>{{ editingId() ? 'แก้ไขหมวดหมู่สินค้า' : 'เพิ่มหมวดหมู่สินค้าใหม่' }}</h3>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>ชื่อหมวดหมู่ *</label>
-            <input formControlName="name" type="text" />
+            <input
+              formControlName="name"
+              type="text"
+            />
             @if (form.get('name')?.invalid && form.get('name')?.touched) {
-              <span class="error">กรุณากรอกชื่อหมวดหมู่</span>
+              <span class="error">กรุณากรอกระบุหมวดหมู่สินค้า</span>
             }
           </div>
+
           <div class="form-group">
-            <label>คำอธิบาย</label>
-            <input formControlName="description" type="text" />
+            <label>คำอธิบายหมวดหมู่</label>
+            <input
+              formControlName="description"
+              type="text"
+            />
           </div>
+
           <div class="modal-actions">
             <button type="button" class="btn-secondary" (click)="closeModal()">ยกเลิก</button>
-            <button type="submit" class="btn-primary" [disabled]="form.invalid">บันทึก</button>
+            <button type="submit" class="btn-primary" [disabled]="form.invalid">
+              บันทึกข้อมูล
+            </button>
           </div>
         </form>
       </div>

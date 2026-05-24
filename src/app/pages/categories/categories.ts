@@ -73,25 +73,36 @@ export class CategoriesComponent implements OnInit {
 
   onSubmit() {
     if (this.form.invalid) return;
-    const data = this.form.value;
-    const id = this.editingId();
-
-    const request = id
-      ? this.categoryService.update(id, data)
-      : this.categoryService.create(data);
-
-    request.subscribe({
-      next: () => {
-        this.closeModal();
-        this.loadCategories();
+    this.dialogService.open({
+      title: 'ยืนยันการบันทึก',
+      message: 'คุณต้องการบันทึกข้อมูลหมวดหมู่นี้ใช่หรือไม่?',
+      confirmBtnText: 'ยืนยันบันทึก',
+      onConfirm: () => {
+        const data = this.form.value;
+        const id = this.editingId();
+        const request = id
+          ? this.categoryService.update(id, data)
+          : this.categoryService.create(data);
+        request.subscribe({
+          next: () => {
+            this.closeModal();
+            this.loadCategories();
+          }
+        });
       }
     });
   }
 
   onDelete(id: number) {
-    if (!confirm('คุณต้องการลบหมวดหมู่นี้ใช่หรือไม่?')) return;
-    this.categoryService.delete(id).subscribe({
-      next: () => this.loadCategories()
+    this.dialogService.open({
+      title: 'ยืนยันการลบหมวดหมู่',
+      message: 'คุณต้องการลบหมวดหมู่นี้ใช่หรือไม่? สินค้าในหมวดหมู่นี้จะถูกลบด้วย',
+      confirmBtnText: 'ยืนยันลบ',
+      onConfirm: () => {
+        this.categoryService.delete(id).subscribe({
+          next: () => this.loadCategories()
+        });
+      }
     });
   }
 

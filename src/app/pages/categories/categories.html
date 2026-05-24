@@ -57,7 +57,9 @@
                     <button class="btn-warning" (click)="openEdit(cat)" style="margin-right: 8px">
                       แก้ไข
                     </button>
-                    <button class="btn-danger" (click)="onDelete(cat.id)">ลบ</button>
+                    @if (user?.role === 'Admin') {
+                      <button class="btn-danger" (click)="onDelete(cat.id)">ลบ</button>
+                    }
                   </td>
                 </tr>
               } @empty {

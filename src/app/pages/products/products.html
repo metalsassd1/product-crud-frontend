@@ -1,28 +1,46 @@
 <div class="page">
   <!-- Navbar -->
-  <nav class="navbar">
-    <span class="brand"> Product Management</span>
-    <div class="nav-actions">
-      <button class="btn-nav" (click)="goToCategories()"> Categories</button>
-      <span class="user-info">👤 {{ user?.username }} ({{ user?.role }})</span>
-      <button class="btn-logout" (click)="logout()">ออกจากระบบ</button>
+  <nav>
+    <div>
+      <app-navbar title="Product Management" navLabel="Categories" navPath="/categories" />
     </div>
   </nav>
 
   <div class="content">
     <!-- Toolbar -->
     <div class="toolbar">
-      <input type="text" placeholder=" ค้นหาสินค้า..." (input)="onSearch($event)" class="search-input" />
-      <button class="btn-primary" (click)="openCreate()">+ เพิ่มสินค้า</button>
+      <input
+        type="text"
+        placeholder=" ค้นหาสินค้า..."
+        (input)="onSearch($event)"
+        class="search-input"
+      />
+      <div class="toolbar-actions">
+        @if (selectedProductIds().length > 0) {
+          <button class="btn-danger" (click)="onDelete(selectedProductIds())">
+            ลบ ({{ selectedProductIds().length }})
+          </button>
+        }
+        <button class="btn-primary" (click)="openCreate()">+ เพิ่มสินค้า</button>
+      </div>
     </div>
 
     <!-- Table -->
     @if (loading()) {
-      <div class="loading">กำลังโหลด...</div>
+      <app-loading [show]="loading()" message="กำลังโหลดสินค้า..." />
     } @else {
       <table class="table">
         <thead>
           <tr>
+            <th>
+              <input
+                type="checkbox"
+                [checked]="
+                  products().length > 0 && selectedProductIds().length === products().length
+                "
+                (change)="toggleSelectAll()"
+              />
+            </th>
             <th>#</th>
             <th>ชื่อสินค้า</th>
             <th>หมวดหมู่</th>
@@ -33,20 +51,33 @@
         </thead>
         <tbody>
           @for (product of products(); track product.id) {
-            <tr>
+            <tr
+              [class.selected]="isProductSelected(product.id)"
+              (click)="openDetail(product)"
+              class="clickable"
+            >
+              <td (click)="$event.stopPropagation()">
+                <input
+                  type="checkbox"
+                  [checked]="isProductSelected(product.id)"
+                  (change)="toggleSelectProduct(product.id)"
+                />
+              </td>
               <td>{{ product.id }}</td>
               <td>{{ product.name }}</td>
               <td>{{ product.categoryName }}</td>
-              <td>฿{{ product.price | number:'1.2-2' }}</td>
+              <td>฿{{ product.price | number: '1.2-2' }}</td>
               <td>{{ product.stock }}</td>
-              <td class="actions">
-                <button class="btn-info" (click)="openDetail(product)">ดู</button>
+              <td class="actions" (click)="$event.stopPropagation()">
                 <button class="btn-warning" (click)="openEdit(product)">แก้ไข</button>
-                <button class="btn-danger" (click)="onDelete(product.id)">ลบ</button>
               </td>
             </tr>
           } @empty {
-            <tr><td colspan="6" class="empty">ไม่พบสินค้า</td></tr>
+            <tr>
+              <td colspan="6" class="empty">
+                <app-empty-state message="ไม่พบข้อมูลสินค้าในระบบ" />
+              </td>
+            </tr>
           }
         </tbody>
       </table>
@@ -112,17 +143,19 @@
     </div>
   }
 
-  <!-- Detail Modal -->
+  <!-- Detail Modal -->ห
   @if (showDetailModal()) {
     <div class="modal-overlay" (click)="closeDetail()">
       <div class="modal" (click)="$event.stopPropagation()">
         <h3>📦 รายละเอียดสินค้า</h3>
         <div class="detail-grid">
           <span class="detail-label">ชื่อ</span><span>{{ selectedProduct()?.name }}</span>
-          <span class="detail-label">คำอธิบาย</span><span>{{ selectedProduct()?.description }}</span>
-          <span class="detail-label">ราคา</span><span>฿{{ selectedProduct()?.price | number:'1.2-2' }}</span>
+          <span class="detail-label">คำอธิบาย</span
+          ><span>{{ selectedProduct()?.description }}</span> <span class="detail-label">ราคา</span
+          ><span>฿{{ selectedProduct()?.price | number: '1.2-2' }}</span>
           <span class="detail-label">Stock</span><span>{{ selectedProduct()?.stock }}</span>
-          <span class="detail-label">หมวดหมู่</span><span>{{ selectedProduct()?.categoryName }}</span>
+          <span class="detail-label">หมวดหมู่</span
+          ><span>{{ selectedProduct()?.categoryName }}</span>
         </div>
         <div class="modal-actions">
           <button class="btn-secondary" (click)="closeDetail()">ปิด</button>

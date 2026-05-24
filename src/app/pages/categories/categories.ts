@@ -4,11 +4,12 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../core/services/category';
 import { AuthService } from '../../core/services/auth';
+import { NavbarComponent } from '../../core/components/navbar/navbar';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+imports: [CommonModule, ReactiveFormsModule, NavbarComponent],
   templateUrl: './categories.html',
   styleUrl: './categories.css'
 })

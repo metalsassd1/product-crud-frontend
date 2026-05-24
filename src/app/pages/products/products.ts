@@ -5,16 +5,21 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../core/services/product';
 import { CategoryService } from '../../core/services/category';
 import { AuthService } from '../../core/services/auth';
+import { NavbarComponent } from '../../core/components/navbar/navbar';
+import { LoadingComponent } from '../../core/components/loading/loading';
+import { EmptyStateComponent } from '../../core/components/empty-state/empty-state';
+import { DialogService } from '../../core/services/dialog';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, LoadingComponent, EmptyStateComponent],
   templateUrl: './products.html',
   styleUrl: './products.css'
 })
 export class ProductsComponent implements OnInit {
   private productService = inject(ProductService);
+  private dialogService = inject(DialogService);
   private categoryService = inject(CategoryService);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -39,6 +44,52 @@ export class ProductsComponent implements OnInit {
     stock: [0, [Validators.required, Validators.min(0)]],
     categoryId: [0, [Validators.required, Validators.min(1)]]
   });
+
+  selectedProductIds = signal<number[]>([]); // 🎯 เก็บ ID สินค้าทั้งหมดที่ยูสเซอร์ติ๊กเลือก
+
+  // 🔄 1. ฟังก์ชันช่วยเช็กว่าเลือกสินค้าชิ้นนี้อยู่ไหม
+  isProductSelected(id: number): boolean {
+    return this.selectedProductIds().includes(id);
+  }
+
+  toggleSelectProduct(id: number) {
+    const currentIds = this.selectedProductIds();
+    if (currentIds.includes(id)) {
+      this.selectedProductIds.set(currentIds.filter(item => item !== id));
+    } else {
+      this.selectedProductIds.set([...currentIds, id]);
+    }
+  }
+
+  // 🔄 3. ฟังก์ชันติ๊กเลือกทั้งหมดในหน้าปัจจุบัน / เลิกเลือกทั้งหมด
+  toggleSelectAll() {
+    const currentProducts = this.products();
+    if (this.selectedProductIds().length === currentProducts.length && currentProducts.length > 0) {
+      this.selectedProductIds.set([]); // เลิกเลือกทั้งหมด
+    } else {
+      this.selectedProductIds.set(currentProducts.map(p => p.id)); // เลือกทุกชิ้นในหน้านี้
+    }
+  }
+
+  onDelete(ids: number[]) {
+  if (ids.length === 0) return;
+
+  this.dialogService.open({
+    title: 'ยืนยันการลบข้อมูล',
+    message: `คุณแน่ใจใช่หรือไม่ว่าต้องการลบรายการที่เลือกทั้งหมดจำนวน ${ids.length} รายการ? (ลบแล้วกู้คืนไม่ได้)`,
+    confirmBtnText: 'ยืนยันลบ',
+    onConfirm: () => {
+      // 💡 สมมติว่า productService.deleteBulk() รองรับการรับ Array [1, 2, 3] 
+      // หรือหากไม่มี สามารถใช้ forkJoin ยิงลบพร้อมกันได้ครับ
+      this.productService.deleteList(ids).subscribe({
+        next: () => {
+          this.selectedProductIds.set([]); // ล้างค่าที่เลือกไว้หลังลบสำเร็จ
+          this.loadProducts(); // รีโหลดตาราง
+        }
+      });
+    }
+  });
+}
 
   ngOnInit() {
     this.loadProducts();
@@ -102,25 +153,25 @@ export class ProductsComponent implements OnInit {
 
   onSubmit() {
     if (this.form.invalid) return;
-    const data = this.form.value;
-    const id = this.editingId();
+    this.dialogService.open({
+      title: 'ยืนยันการบันทึกข้อมูล',
+      message: 'คุณตรวจสอบข้อมูลและยืนยันที่จะบันทึกรายการนี้ใช่หรือไม่?',
+      confirmBtnText: 'ยืนยันบันทึก',
+      onConfirm: () => {
+        const data = this.form.value;
+        const id = this.editingId();
 
-    const request = id
-      ? this.productService.update(id, data)
-      : this.productService.create(data);
+        const request = id
+          ? this.productService.update(id, data)
+          : this.productService.create(data);
 
-    request.subscribe({
-      next: () => {
-        this.closeModal();
-        this.loadProducts();
+        request.subscribe({
+          next: () => {
+            this.closeModal();
+            this.loadProducts();
+          }
+        });
       }
-    });
-  }
-
-  onDelete(id: number) {
-    if (!confirm('คุณต้องการลบสินค้านี้ใช่หรือไม่?')) return;
-    this.productService.delete(id).subscribe({
-      next: () => this.loadProducts()
     });
   }
 

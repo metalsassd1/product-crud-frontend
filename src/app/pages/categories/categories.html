@@ -1,18 +1,20 @@
 <div class="page">
   <!-- Navbar -->
-  <nav class="navbar">
-    <span class="brand"> Category Management</span>
-    <div class="nav-actions">
-      <button class="btn-nav" (click)="goToProducts()">🛒 Products</button>
-      <span class="user-info">👤 {{ user?.username }} ({{ user?.role }})</span>
-      <button class="btn-logout" (click)="logout()">ออกจากระบบ</button>
+  <nav>
+    <div>
+      <app-navbar title="Product Management" navLabel="Categories" navPath="/products" />
     </div>
   </nav>
 
   <div class="content">
     <!-- Toolbar -->
     <div class="toolbar">
-      <input type="text" placeholder=" ค้นหาหมวดหมู่..." (input)="onSearch($event)" class="search-input" />
+      <input
+        type="text"
+        placeholder=" ค้นหาหมวดหมู่..."
+        (input)="onSearch($event)"
+        class="search-input"
+      />
       <button class="btn-primary" (click)="openCreate()">+ เพิ่มหมวดหมู่</button>
     </div>
 
@@ -41,7 +43,9 @@
               </td>
             </tr>
           } @empty {
-            <tr><td colspan="4" class="empty">ไม่พบหมวดหมู่</td></tr>
+            <tr>
+              <td colspan="4" class="empty">ไม่พบหมวดหมู่</td>
+            </tr>
           }
         </tbody>
       </table>

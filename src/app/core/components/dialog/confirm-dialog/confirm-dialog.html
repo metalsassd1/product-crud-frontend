@@ -1,0 +1,17 @@
+<!-- คอยส่องหน้าต่าง Service กลาง ถ้าสั่ง isOpen เป็น true ค่อยแสดงร่างออกมา -->
+@if (dialogService.isOpen()) {
+  <div class="overlay">
+    <div class="dialog">
+      <h3>{{ dialogService.config()?.title }}</h3>
+      <p>{{ dialogService.config()?.message }}</p>
+      <div class="actions">
+        <button class="btn-secondary" (click)="onCancel()">
+          {{ dialogService.config()?.cancelBtnText }}
+        </button>
+        <button class="btn-danger" (click)="onConfirm()">
+          {{ dialogService.config()?.confirmBtnText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

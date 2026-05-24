@@ -1,0 +1,133 @@
+<div class="page">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <span class="brand"> Product Management</span>
+    <div class="nav-actions">
+      <button class="btn-nav" (click)="goToCategories()"> Categories</button>
+      <span class="user-info">👤 {{ user?.username }} ({{ user?.role }})</span>
+      <button class="btn-logout" (click)="logout()">ออกจากระบบ</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <input type="text" placeholder=" ค้นหาสินค้า..." (input)="onSearch($event)" class="search-input" />
+      <button class="btn-primary" (click)="openCreate()">+ เพิ่มสินค้า</button>
+    </div>
+
+    <!-- Table -->
+    @if (loading()) {
+      <div class="loading">กำลังโหลด...</div>
+    } @else {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ชื่อสินค้า</th>
+            <th>หมวดหมู่</th>
+            <th>ราคา</th>
+            <th>Stock</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of products(); track product.id) {
+            <tr>
+              <td>{{ product.id }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.categoryName }}</td>
+              <td>฿{{ product.price | number:'1.2-2' }}</td>
+              <td>{{ product.stock }}</td>
+              <td class="actions">
+                <button class="btn-info" (click)="openDetail(product)">ดู</button>
+                <button class="btn-warning" (click)="openEdit(product)">แก้ไข</button>
+                <button class="btn-danger" (click)="onDelete(product.id)">ลบ</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="6" class="empty">ไม่พบสินค้า</td></tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">◀ ก่อนหน้า</button>
+        <span>หน้า {{ currentPage }}</span>
+        <button (click)="nextPage()" [disabled]="!hasMore()">ถัดไป ▶</button>
+      </div>
+    }
+  </div>
+
+  <!-- Create/Edit Modal -->
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>{{ editingId() ? 'แก้ไขสินค้า' : 'เพิ่มสินค้าใหม่' }}</h3>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>ชื่อสินค้า *</label>
+            <input formControlName="name" type="text" />
+            @if (form.get('name')?.invalid && form.get('name')?.touched) {
+              <span class="error">กรุณากรอกชื่อสินค้า</span>
+            }
+          </div>
+          <div class="form-group">
+            <label>คำอธิบาย</label>
+            <input formControlName="description" type="text" />
+          </div>
+          <div class="form-group">
+            <label>ราคา *</label>
+            <input formControlName="price" type="number" step="0.01" />
+            @if (form.get('price')?.invalid && form.get('price')?.touched) {
+              <span class="error">ราคาต้องมากกว่า 0</span>
+            }
+          </div>
+          <div class="form-group">
+            <label>Stock *</label>
+            <input formControlName="stock" type="number" />
+            @if (form.get('stock')?.invalid && form.get('stock')?.touched) {
+              <span class="error">Stock ต้องไม่ติดลบ</span>
+            }
+          </div>
+          <div class="form-group">
+            <label>หมวดหมู่ *</label>
+            <select formControlName="categoryId">
+              <option value="0">-- เลือกหมวดหมู่ --</option>
+              @for (cat of categories(); track cat.id) {
+                <option [value]="cat.id">{{ cat.name }}</option>
+              }
+            </select>
+            @if (form.get('categoryId')?.invalid && form.get('categoryId')?.touched) {
+              <span class="error">กรุณาเลือกหมวดหมู่</span>
+            }
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" (click)="closeModal()">ยกเลิก</button>
+            <button type="submit" class="btn-primary" [disabled]="form.invalid">บันทึก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Detail Modal -->
+  @if (showDetailModal()) {
+    <div class="modal-overlay" (click)="closeDetail()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>📦 รายละเอียดสินค้า</h3>
+        <div class="detail-grid">
+          <span class="detail-label">ชื่อ</span><span>{{ selectedProduct()?.name }}</span>
+          <span class="detail-label">คำอธิบาย</span><span>{{ selectedProduct()?.description }}</span>
+          <span class="detail-label">ราคา</span><span>฿{{ selectedProduct()?.price | number:'1.2-2' }}</span>
+          <span class="detail-label">Stock</span><span>{{ selectedProduct()?.stock }}</span>
+          <span class="detail-label">หมวดหมู่</span><span>{{ selectedProduct()?.categoryName }}</span>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-secondary" (click)="closeDetail()">ปิด</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,53 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2> สมัครสมาชิก</h2>
+    
+    <!-- แจ้งเตือนเมื่อสมัครสำเร็จ -->
+    @if (successMessage()) {
+      <div class="alert alert-success">{{ successMessage() }}</div>
+    }
+    
+    <!-- แจ้งเตือนเมื่อเกิดเออเร่อ -->
+    @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <!-- ช่องกรอก Username -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" formControlName="username" type="text" placeholder="ตั้งชื่อผู้ใช้ของคุณ" />
+        @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+          <small class="error-text">กรุณากรอก Username</small>
+        }
+      </div>
+
+      <!-- ช่องกรอก Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" formControlName="password" type="password" placeholder="ตั้งรหัสผ่านปลอดภัย" />
+        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          <small class="error-text">กรุณากรอก Password</small>
+        }
+      </div>
+
+      <!-- ช่องเลือกระดับสิทธิ์ (Role)
+      <div class="form-group">
+        <label for="role">สิทธิ์การใช้งาน (Role)</label>
+        <select id="role" formControlName="role">
+          <option value="User">User (ดูสินค้าได้อย่างเดียว)</option>
+          <option value="Admin">Admin (จัดการระบบ เพิ่ม ลบ แก้ไขสินค้าได้)</option>
+        </select>
+      </div> -->
+
+      <!-- ปุ่มกด Submit -->
+      <button type="submit" [disabled]="registerForm.invalid || isLoading()" class="btn-register">
+        {{ isLoading() ? 'กำลังบันทึกข้อมูล...' : 'สมัครสมาชิก' }}
+      </button>
+    </form>
+
+    <div class="footer-link">
+      มีบัญชีอยู่แล้วใช่ไหม? <a routerLink="/login">เข้าสู่ระบบที่นี่</a>
+    </div>
+  </div>
+</div>

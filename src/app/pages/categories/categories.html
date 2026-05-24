@@ -1,0 +1,76 @@
+<div class="page">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <span class="brand"> Category Management</span>
+    <div class="nav-actions">
+      <button class="btn-nav" (click)="goToProducts()">🛒 Products</button>
+      <span class="user-info">👤 {{ user?.username }} ({{ user?.role }})</span>
+      <button class="btn-logout" (click)="logout()">ออกจากระบบ</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <input type="text" placeholder=" ค้นหาหมวดหมู่..." (input)="onSearch($event)" class="search-input" />
+      <button class="btn-primary" (click)="openCreate()">+ เพิ่มหมวดหมู่</button>
+    </div>
+
+    <!-- Table -->
+    @if (loading()) {
+      <div class="loading">กำลังโหลด...</div>
+    } @else {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ชื่อหมวดหมู่</th>
+            <th>คำอธิบาย</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cat of categories(); track cat.id) {
+            <tr>
+              <td>{{ cat.id }}</td>
+              <td>{{ cat.name }}</td>
+              <td>{{ cat.description }}</td>
+              <td class="actions">
+                <button class="btn-warning" (click)="openEdit(cat)">แก้ไข</button>
+                <button class="btn-danger" (click)="onDelete(cat.id)">ลบ</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="4" class="empty">ไม่พบหมวดหมู่</td></tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- Create/Edit Modal -->
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>{{ editingId() ? 'แก้ไขหมวดหมู่' : 'เพิ่มหมวดหมู่ใหม่' }}</h3>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>ชื่อหมวดหมู่ *</label>
+            <input formControlName="name" type="text" />
+            @if (form.get('name')?.invalid && form.get('name')?.touched) {
+              <span class="error">กรุณากรอกชื่อหมวดหมู่</span>
+            }
+          </div>
+          <div class="form-group">
+            <label>คำอธิบาย</label>
+            <input formControlName="description" type="text" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" (click)="closeModal()">ยกเลิก</button>
+            <button type="submit" class="btn-primary" [disabled]="form.invalid">บันทึก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

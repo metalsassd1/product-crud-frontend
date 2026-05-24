@@ -1,0 +1,35 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>เข้าสู่ระบบ</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Username</label>
+        <input formControlName="username" type="text" placeholder="กรอก Username" />
+        @if (form.get('username')?.invalid && form.get('username')?.touched) {
+          <span class="error">กรุณากรอก Username</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input formControlName="password" type="password" placeholder="กรอก Password" />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <span class="error">Password ต้องมีอย่างน้อย 6 ตัวอักษร</span>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-box">{{ errorMessage }}</div>
+      }
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ' }}
+      </button>
+
+      <div class="footer-link">
+        <a routerLink="/register">สมัครที่นี่</a>
+      </div>
+    </form>
+  </div>
+</div>

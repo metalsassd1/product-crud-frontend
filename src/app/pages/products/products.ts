@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
-  navLinks = [{ navLabel: "Categories", navPath: "/categories" }];
+
 
   products = signal<any[]>([]);
   categories = signal<any[]>([]);

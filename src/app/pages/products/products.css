@@ -1,110 +1,62 @@
-/* คุมหน้าจอทั้งหมด */
+/* ==========================================================================
+   🧱 SECTION 1: CORE LAYOUT (ระบบโครงสร้างหลักและพื้นที่การแสดงผล)
+   ========================================================================== */
+
+/* คุมหน้าจอภาพทั้งหมด */
 .page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #f0f2f5;
+  background: #f0f2f5; /* พื้นหลังเทาอ่อนสไตล์ Dashboard[cite: 14] */
 }
 
-.layout {
-  display: flex;
-  margin-left: 260px; /* 🎯 ผลักเนื้อหาหลบ Sidebar ด้านซ้ายกว้าง 260px[cite: 9] */
-  margin-top: 64px;   /* 🎯 ผลักเนื้อหาหลบแนวความสูงของ Top Navbar ด้านบนลงมา 64px */
-  min-height: calc(100vh - 64px);
-  width: calc(100% - 260px);
-}
-
-.content {
-  flex: 1;
-  padding: 2rem;
-}
-
+/* แถบหุ้ม Top Navbar บนสุด */
 .navbar-wrapper {
   height: 64px;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 110;
-}
-.btn-primary {
-  background: #6ca018;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
+  z-index: 110; /* ตรึงเลเยอร์ให้อยู่ระดับบน[cite: 14] */
 }
 
-.btn-primary:hover {
-  background: #44660e;
+/* บล็อกจัดวางเนื้อหาที่อยู่ถัดลงมาจาก Top Navbar */
+.layout {
+  display: flex;
+  margin-left: 260px; /* ผลักเนื้อหาไปทางขวาหลบแนว Sidebar กว้าง 260px[cite: 14] */
+  margin-top: 64px;   /* ดันขอบบนลงมาเพื่อไม่ให้จมอยู่ใต้แถบหน้าต่าง Top Navbar[cite: 14] */
+  min-height: calc(100vh - 64px);
+  width: calc(100% - 260px);
 }
+
+/* พื้นที่บอร์ดแสดงผลการทำงานหลัก */
+.content {
+  flex: 1;
+  padding: 2rem; /* เว้นระยะห่างรอบตัวเนื้อหาเพื่อความสบายตา[cite: 14] */
+}
+
+/* ==========================================================================
+   🛠️ SECTION 2: TOOLBAR & SEARCH SYSTEM (กลุ่มกล่องควบคุมและฟอร์มค้นหา)
+   ========================================================================== */
 
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  gap: 16px;
-}
-
-/* 🗺️ แถบ Breadcrumb คาดด้านบนของพื้นที่ทำงาน */
-.breadcrumb-bar {
-  background-color: #2c3e50; /* สีกรมท่าหรูหราตัดแบ่งเลเยอร์ตามต้นฉบับ */
-  padding: 14px 24px;
-  color: #ffffff;
-  font-family: sans-serif;
-}
-
-.breadcrumb-text {
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-.btn-danger {
-  background: #e53e3e;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-/* 🛠️ ส่วนพื้นที่จัดการค้นหาและปุ่ม */
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  gap: 16px;
-}
-
-.toolbar-actions {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.btn-warning {
-  background: #f59e0b;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
+  gap: 16px; /* ระยะห่างระหว่างกล่องค้นหากับกลุ่มปุ่มสั่งการ[cite: 14] */
 }
 
 .search-box {
   flex: 1;
-  max-width: 400px;
+  max-width: 400px; /* จำกัดขนาดความกว้างสูงสุดของกล่องอินพุตค้นหา[cite: 14] */
 }
 
 .search-input {
   width: 100%;
   padding: 10px 16px;
   border: 1px solid #cbd5e1;
-  border-radius: 20px; /* ขอบมนโค้งมนสวยเนียนตา */
+  border-radius: 20px; /* ดีไซน์กล่องขอบมนโค้งเรียบเนียนสไตล์โมเดิร์น[cite: 14] */
   font-size: 0.9rem;
   background-color: #ffffff;
   outline: none;
@@ -112,59 +64,79 @@
 }
 
 .search-input:focus {
-  border-color: #6ca018; /* เปลี่ยนเป็นสีเขียวตระกูลเดียวกันตอนโฟกัส */
+  border-color: #6ca018; /* เปลี่ยนสีเส้นขอบเป็นเขียวธรรมชาติเมื่อผู้ใช้โฟกัส[cite: 14] */
 }
 
-/* 📦 คอนเทนเนอร์หุ้มตารางเพิ่มความโค้งมนและมิติเงา */
+.toolbar-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center; /* จัดวางปุ่มคำสั่งให้อยู่กึ่งกลางในแนวตั้งร่วมกัน[cite: 14] */
+}
+
+/* ==========================================================================
+   📊 SECTION 3: DATA TABLE DESIGN (ส่วนโครงสร้างการแสดงตารางข้อมูลสินค้า)
+   ========================================================================== */
+
 .table-container {
   margin: 0 24px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  overflow: hidden;
+  overflow: hidden; /* สั่งคลิปขอบมนไม่ให้เนื้อหาตารางล้นทะลุเหลี่ยมมุม[cite: 14] */
 }
 
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* ยุบขอบเส้นคั่นตารางให้บางคมชัดสมบูรณ์[cite: 14] */
 }
 
-/* หัวตารางพื้นสีเขียวใบไม้แมตช์ตามธีมของสหาย */
+/* หัวตารางพื้นสีเขียวใบไม้เข้มข้นคุมโทนระบบ */
 .table th {
-  background: #1e3f20; /* สีเขียวใบไม้เข้มข้น */
+  background: #1e3f20; /* สีเขียวป่าลึกแมตช์เข้าชุดกับแถบตัวเลือกหลัก[cite: 14] */
   color: white;
   padding: 14px 16px;
   text-align: left;
   font-size: 0.9rem;
 }
+
 .table td {
   padding: 12px 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb; /* เส้นแบ่งบางเบาโทนเทาจาง[cite: 14] */
   font-size: 0.9rem;
+  color: #334155;
 }
 
-
-/* กำหนดความกว้างคอลัมน์ Checkbox ให้แคบพอดีไอคอน */
+/* ช่องคอลัมน์คุม Checkbox */
 .col-checkbox {
   width: 40px;
-  text-align: center;
+  text-align: center; /* จัดกึ่งกลางสัญลักษณ์กล่องเครื่องหมาย[cite: 14] */
 }
 
-/* เอฟเฟกต์ไฮไลต์แถวเมื่อเอาเมาส์ไปชี้แบบระบบสากล */
+/* เอฟเฟกต์การไฮไลต์เปลี่ยนสีแถวเมื่อผู้ใช้เลื่อนเมาส์ชี้ผ่าน */
 .clickable:hover td {
   background-color: #f8fafc;
-  cursor: pointer;
+  cursor: pointer; /* เปลี่ยนรูปเมาส์บอกนัยว่าสามารถคลิกเข้าดูรายละเอียดได้[cite: 14] */
 }
 
-/* สีแถวตารางเมื่อถูกติ๊กเลือก */
+/* เอฟเฟกต์เปลี่ยนสีพื้นหลังเมื่อแถวสินค้านั้น ๆ ถูกติ๊กเครื่องหมายเลือก */
 .tr.selected td {
-  background-color: #ecfdf5;
+  background-color: #ecfdf5; /* สีเขียวพาสเทลจาง[cite: 14] */
 }
 
-/* 📄 แถบควบคุมเลขหน้าเพจ */
+.empty {
+  text-align: center;
+  color: #999999;
+  padding: 2rem !important;
+}
+
+/* ==========================================================================
+   📄 SECTION 4: NAVIGATION & BUTTONS (ระบบปุ่มกดและแถบสลับเลขหน้าเพจ)
+   ========================================================================== */
+
+/* แถบควบคุมชุดเลขหน้าเพจตาราง */
 .pagination {
   display: flex;
-  justify-content: flex-end; /* ขยับไปชิดมุมขวาล่างตามภาพ */
+  justify-content: flex-end; /* ขยับชุดปุ่มไปชิดมุมขวาล่างตามดีไซน์มาตรฐาน[cite: 14] */
   align-items: center;
   padding: 20px 24px;
   gap: 12px;
@@ -172,7 +144,7 @@
 
 .page-number {
   font-size: 0.85rem;
-  color: #64748b;
+  color: #64748b; /* โทนสีข้อความเทาหม่น[cite: 14] */
 }
 
 .pagination button {
@@ -187,5 +159,141 @@
 
 .pagination button:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: not-allowed; /* เปลี่ยนรูปเมาส์เป็นเครื่องหมายห้ามกดเมื่อหมดหน้าเพจ[cite: 14] */
+}
+
+/* ปุ่มหลักธีมสีเขียว (เช่น ปุ่ม + เพิ่มสินค้าใหม่) */
+.btn-primary {
+  background: #6ca018;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background: #44660e; /* สีเขียวเข้มขึ้นเมื่อเมาส์ชี้[cite: 14] */
+}
+
+/* ปุ่มระวังสีส้ม (เช่น ปุ่มแก้ไขข้อมูล) */
+.btn-warning {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* ปุ่มอันตรายสีแดง (เช่น ปุ่มลบรายการข้อมูล) */
+.btn-danger {
+  background: #e53e3e;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-secondary {
+  background: #e2e8f0;
+  color: #333333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   🖤 SECTION 5: MODAL WINDOW LAYER (หน้าต่าง Pop-up แสดงรายละเอียดและฟอร์ม)
+   ========================================================================== */
+
+/* ผืนผ้าโปร่งแสงสีดำทับเต็มสัดส่วนขอบจอภาพ */
+.modal-overlay {
+  position: fixed; /* ใช้ fixed คลุมสัดส่วนพื้นที่หน้าต่างหลักอย่างแท้จริง[cite: 14] */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* ถมความมืด 50%[cite: 14] */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9000;/* 🚀 ดันค่าเลเยอร์ทะลุสูงสุดเพื่อแก้ปัญหาแผงเมนูบังฟอร์ม[cite: 14] */
+}
+
+/* กล่องหน้าต่าง Modal แสดงเนื้อหาการกรอกข้อมูล */
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px; /* ขนาดกะทัดรัดอ่านง่ายพอดีระดับสายตา[cite: 14] */
+  max-height: 90vh;
+  overflow-y: auto; /* เปิดแถบสกรอลล์บาร์แนวตั้งอัตโนมัติกรณีช่องข้อมูลยาวล้นกล่อง[cite: 14] */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* เงาลอยนวลตา[cite: 14] */
+}
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1.5rem; /* เว้นระยะห่างระหว่างชุดช่องข้อมูลข้อความ[cite: 14] */
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333333;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6ca018;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* โครงตาข่ายสัดส่วนโมดอลโชว์รายละเอียดเนื้อหา */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr; /* แบ่งซีกซ้ายป้ายหัวข้อย่อย ซีกขวาข้อมูลตัวแปรเนื้อหา */
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #555555;
+  font-size: 13px;
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 4px;
 }
